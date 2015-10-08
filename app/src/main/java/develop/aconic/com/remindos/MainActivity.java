@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import develop.aconic.com.remindos.adapter.TabAdapter;
+import develop.aconic.com.remindos.database.DBHelper;
 import develop.aconic.com.remindos.dialog.AddingTaskDialogFragment;
 import develop.aconic.com.remindos.fragment.CurrentTaskFragment;
 import develop.aconic.com.remindos.fragment.CurrentTaskFragment.OnTaskDoneListener;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
     TaskFragment currentTaskFragment;
     TaskFragment doneTaskFragment;
 
+    public DBHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
 
         PreferenceHelper.getInstance().init(getApplicationContext());
         preferenceHelper = PreferenceHelper.getInstance();
+
+        dbHelper = new DBHelper(getApplicationContext());
 
         fragmentManager = getFragmentManager();
 
@@ -129,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
 
     @Override
     public void onTaskAdded(ModelTask newTask) {
-        currentTaskFragment.addTask(newTask);
+        currentTaskFragment.addTask(newTask, true);
     }
 
     @Override
@@ -139,11 +144,11 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
 
     @Override
     public void onTaskDone(ModelTask task) {
-        doneTaskFragment.addTask(task);
+        doneTaskFragment.addTask(task, false);
     }
 
     @Override
     public void onTaskRestore(ModelTask task) {
-        currentTaskFragment.addTask(task);
+        currentTaskFragment.addTask(task, false);
     }
 }

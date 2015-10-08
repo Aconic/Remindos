@@ -9,8 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import develop.aconic.com.remindos.R;
 import develop.aconic.com.remindos.adapter.CurrentTasksAdapter;
+import develop.aconic.com.remindos.database.DBHelper;
 import develop.aconic.com.remindos.model.ModelTask;
 
 
@@ -56,6 +60,17 @@ public class CurrentTaskFragment extends TaskFragment {
         return rootView;
     }
 
+
+    @Override
+    public void addTaskFromDB() {
+        List<ModelTask> tasks = new ArrayList<>();
+        tasks.addAll(mainActivity.dbHelper.query().getTasks(DBHelper.SELECTION_STATUS + " OR "
+                + DBHelper.SELECTION_STATUS, new String[]{Integer.toString(ModelTask.STATUS_CURRENT),
+                Integer.toString(ModelTask.STATUS_OVERDUE)}, DBHelper.TASK_DATE_COLUMN));
+        for (int i = 0; i < tasks.size(); i++) {
+            addTask(tasks.get(i), false);
+        }
+    }
 
     @Override
     public void moveTask(ModelTask task) {
