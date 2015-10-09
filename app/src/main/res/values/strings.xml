@@ -17,4 +17,7 @@
     <string name="task_date">Date</string>
     <string name="task_time">Time</string>
 
+    <string name="dialog_removing_message">Are you sure to delete this task?</string>
+    <string name="dialog_removed">Task was removed</string>
+
 </resources>

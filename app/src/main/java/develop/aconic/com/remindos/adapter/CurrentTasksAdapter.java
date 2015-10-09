@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.res.Resources;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,6 +81,21 @@ public class CurrentTasksAdapter extends TaskAdapter {
 
                     itemView.setBackgroundColor(resources.getColor(R.color.gray_200));
 
+                    itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getTaskFragment().removeTaskDialog(taskViewHolder.getLayoutPosition());
+                                }
+                            }, 1000);
+
+                            return true;
+                        }
+                    });
+
                     taskViewHolder.title.setTextColor(resources.getColor(R.color.primary_text_disabled_material_light));
                     taskViewHolder.date.setTextColor(resources.getColor(R.color.secondary_text_disabled_material_light));
                     taskViewHolder.priority.setColorFilter(resources.getColor(task.getPriorityColor()));
@@ -153,7 +169,6 @@ public class CurrentTasksAdapter extends TaskAdapter {
         }
 
     }
-
 
 
     @Override
